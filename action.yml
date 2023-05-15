@@ -1,0 +1,20 @@
+name: 'lodev action'
+description: 'GitHub Action for lodev, a simple reverse proxy server for local development'
+author: 'vandot'
+branding:
+  color: 'orange'
+  icon: 'server'
+
+inputs:
+  version:
+    description: 'lodev version'
+    default: 'latest'
+    required: false
+  install-only:
+    description: 'just install lodev'
+    default: 'false'
+    required: false
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
