@@ -21,6 +21,9 @@ jobs:
         run: |
           dig A example.lo
           ping -c 1 example.lo
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
   test-install-only:
     runs-on: ubuntu-latest
     name: Test lodev-action install-only

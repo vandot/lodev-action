@@ -20,7 +20,12 @@ async function run(): Promise<void> {
       return;
     }
 
-    await exec.exec(`sudo ${lodev} install`);
+    if (installer.useSudo()) {
+      await exec.exec(`sudo ${lodev} install`);
+    } else {
+      await exec.exec(`${lodev} install`);
+    }
+
 
     if (context.osPlat == 'linux') {
      const s = await installer.ipSet();
