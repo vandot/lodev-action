@@ -11,6 +11,8 @@ async function run(): Promise<void> {
     const lodev = await installer.install(inputs.version);
     core.startGroup(`Installing lodev ${inputs.version}...`);
 
+    await exec.exec(`sudo setcap cap_net_bind_service=+eip ${lodev}`)
+
     if (inputs.installOnly) {
       const lodevDir = path.dirname(lodev);
       core.addPath(lodevDir);
@@ -20,7 +22,12 @@ async function run(): Promise<void> {
       return;
     }
 
-    await exec.exec(`sudo ${lodev} install`);
+    if (installer.useSudo()) {
+      await exec.exec(`sudo ${lodev} install`);
+    } else {
+      await exec.exec(`${lodev} install`);
+    }
+
 
     if (context.osPlat == 'linux') {
      const s = await installer.ipSet();
